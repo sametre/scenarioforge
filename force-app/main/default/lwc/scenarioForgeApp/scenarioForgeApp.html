@@ -1,0 +1,103 @@
+<template>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{logoUrl}" alt="ScenarioForge" />
+                <div>
+                    <span class="brand-name">ScenarioForge</span>
+                    <span class="brand-subtitle">Automation Regression Platform</span>
+                </div>
+            </div>
+            <div class="workspace-label">WORKSPACE</div>
+            <nav>
+                <button
+                    class="{setupClass}"
+                    data-view="setup"
+                    onclick="{navigate}"
+                >
+                    <lightning-icon icon-name="utility:setup" size="x-small"></lightning-icon
+                    ><span>Setup & Quick Start</span>
+                </button>
+                <button
+                    class="{dashboardClass}"
+                    data-view="dashboard"
+                    onclick="{navigate}"
+                >
+                    <lightning-icon icon-name="utility:metrics" size="x-small"></lightning-icon><span>Overview</span>
+                </button>
+                <button
+                    class="{scenariosClass}"
+                    data-view="scenarios"
+                    onclick="{navigate}"
+                >
+                    <lightning-icon icon-name="utility:rules" size="x-small"></lightning-icon><span>Scenarios</span>
+                </button>
+                <button
+                    class="{suitesClass}"
+                    data-view="suites"
+                    onclick="{navigate}"
+                >
+                    <lightning-icon icon-name="utility:collection" size="x-small"></lightning-icon
+                    ><span>Regression Suites</span>
+                </button>
+                <button
+                    class="{runsClass}"
+                    data-view="runs"
+                    onclick="{navigate}"
+                >
+                    <lightning-icon icon-name="utility:activity" size="x-small"></lightning-icon
+                    ><span>Run History</span>
+                </button>
+            </nav>
+            <div class="sidebar-card">
+                <span class="card-kicker">ENGINE</span>
+                <strong>v3.0.0</strong>
+                <p>User-mode target data with savepoint rollback.</p>
+            </div>
+            <div class="sidebar-footer"><span class="dot"></span> Isolated execution enabled</div>
+        </aside>
+        <main class="content">
+            <template lwc:if="{isSetup}"
+                ><c-scenario-forge-onboarding
+                    onopenstarter="{openStarter}"
+                    onsetupcomplete="{setupComplete}"
+                ></c-scenario-forge-onboarding
+            ></template>
+            <template lwc:elseif="{isDashboard}"
+                ><c-scenario-forge-dashboard onopenrun="{openRun}"></c-scenario-forge-dashboard
+            ></template>
+            <template lwc:elseif="{isScenarios}"
+                ><c-scenario-forge-scenarios
+                    onopenscenario="{openScenario}"
+                    onopenrun="{openRun}"
+                ></c-scenario-forge-scenarios
+            ></template>
+            <template lwc:elseif="{isBuilder}"
+                ><c-scenario-forge-builder
+                    scenario-id="{selectedScenarioId}"
+                    onback="{backToScenarios}"
+                    onopenrun="{openRun}"
+                ></c-scenario-forge-builder
+            ></template>
+            <template lwc:elseif="{isSuites}"
+                ><c-scenario-forge-suites onopensuiterun="{openSuiteRun}"></c-scenario-forge-suites
+            ></template>
+            <template lwc:elseif="{isRuns}"
+                ><c-scenario-forge-runs onopenrun="{openRun}"></c-scenario-forge-runs
+            ></template>
+            <template lwc:elseif="{isRunDetail}"
+                ><c-scenario-forge-run-detail
+                    run-id="{selectedRunId}"
+                    onback="{backToRuns}"
+                ></c-scenario-forge-run-detail
+            ></template>
+            <template lwc:elseif="{isSuiteRunDetail}"
+                ><c-scenario-forge-suite-run-detail
+                    suite-run-id="{selectedSuiteRunId}"
+                    onback="{backToSuites}"
+                    onopenrun="{openRun}"
+                ></c-scenario-forge-suite-run-detail
+            ></template>
+        </main>
+    </div>
+</template>

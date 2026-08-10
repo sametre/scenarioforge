@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Action__c</fullName>
+    <label>Action</label>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>CREATE_RECORD</fullName><default>true</default><label>Create Record</label></value>
+            <value><fullName>FIND_RECORD</fullName><default>false</default><label>Find Record</label></value>
+            <value><fullName>UPDATE_RECORD</fullName><default>false</default><label>Update Record</label></value>
+            <value><fullName>DELETE_RECORD</fullName><default>false</default><label>Delete Record</label></value>
+            <value><fullName>ASSERT_FIELD</fullName><default>false</default><label>Assert Field</label></value>
+            <value><fullName>ASSERT_RECORD_EXISTS</fullName><default>false</default><label>Assert Record Exists</label></value>
+            <value><fullName>ASSERT_RECORD_NOT_EXISTS</fullName><default>false</default><label>Assert Record Not Exists</label></value>
+            <value><fullName>ASSERT_RECORD_COUNT</fullName><default>false</default><label>Assert Record Count</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

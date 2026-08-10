@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose a focused improvement to the regression platform.
+title: '[Feature]: '
+labels: [enhancement]
+body:
+    - type: textarea
+      id: problem
+      attributes: { label: Developer problem, description: What Salesforce testing workflow is difficult today? }
+      validations: { required: true }
+    - type: textarea
+      id: proposal
+      attributes: { label: Proposed behavior }
+      validations: { required: true }
+    - type: textarea
+      id: safety
+      attributes:
+          {
+              label: Rollback / side-effect considerations,
+              description: Explain any async,
+              callout,
+              platform-event,
+              or external-system implications.,
+          }

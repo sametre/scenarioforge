@@ -1,0 +1,63 @@
+<template>
+    <header class="hero">
+        <div>
+            <span class="eyebrow">SCENARIOFORGE V3</span>
+            <h1>Ship Salesforce automation with evidence.</h1>
+            <p>
+                Model business processes, validate scenario definitions before execution, run isolated tests, and group
+                critical paths into reusable regression suites.
+            </p>
+        </div>
+        <div class="engine">
+            <span>EXECUTION ENGINE</span><strong>3.0.0</strong><small>API 67.0 · Summer ’26</small>
+        </div>
+    </header>
+    <template lwc:if="{error}"><div class="error">{error}</div></template>
+    <template lwc:if="{dashboard}">
+        <section class="stats">
+            <article>
+                <span>Active scenarios</span><strong>{dashboard.activeScenarios}</strong
+                ><small>executable definitions</small>
+            </article>
+            <article>
+                <span>Regression suites</span><strong>{dashboard.activeSuites}</strong><small>team test packs</small>
+            </article>
+            <article>
+                <span>Pass rate</span><strong>{passRate}</strong><small>scenario execution history</small>
+            </article>
+            <article>
+                <span>Failed runs</span><strong>{dashboard.failedRuns}</strong><small>signals requiring review</small>
+            </article>
+        </section>
+        <section class="panel">
+            <div class="panel-title">
+                <div>
+                    <span class="eyebrow">LATEST SIGNALS</span>
+                    <h2>Recent scenario executions</h2>
+                </div>
+                <span class="total">{dashboard.totalRuns} total runs</span>
+            </div>
+            <template lwc:if="{hasRuns}">
+                <div class="run-list">
+                    <template for:each="{dashboard.recentRuns}" for:item="run"
+                        ><button
+                            key="{run.id}"
+                            class="run-row"
+                            data-id="{run.id}"
+                            onclick="{openRun}"
+                        >
+                            <div><strong>{run.scenarioName}</strong><span>{run.name}</span></div>
+                            <span class="status">{run.status}</span
+                            ><span>{run.passedSteps}/{run.executedSteps} executed</span><span>{run.durationMs} ms</span
+                            ><lightning-icon icon-name="utility:chevronright" size="xx-small"></lightning-icon></button
+                    ></template>
+                </div>
+            </template>
+            <template lwc:else
+                ><div class="empty">
+                    No executions yet. Create a scenario or import one from source control.
+                </div></template
+            >
+        </section>
+    </template>
+</template>

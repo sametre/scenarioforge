@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible ScenarioForge defect.
+title: '[Bug]: '
+labels: [bug]
+body:
+    - type: input
+      id: release
+      attributes: { label: ScenarioForge version, placeholder: '3.0.0' }
+      validations: { required: true }
+    - type: input
+      id: org
+      attributes: { label: Salesforce org / release, placeholder: "Developer Edition · Summer '26" }
+    - type: textarea
+      id: reproduce
+      attributes:
+          { label: Reproduction steps, description: Include the scenario action/configuration with secrets removed. }
+      validations: { required: true }
+    - type: textarea
+      id: expected
+      attributes: { label: Expected behavior }
+      validations: { required: true }
+    - type: textarea
+      id: actual
+      attributes: { label: Actual behavior }
+      validations: { required: true }

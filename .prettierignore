@@ -1,0 +1,6 @@
+node_modules
+.sfdx
+.sf
+assets
+force-app/main/default/staticresources
+force-app/main/default/lwc/**/*.html

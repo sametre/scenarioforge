@@ -1,0 +1,65 @@
+<svg width="1400" height="480" viewBox="0 0 1400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071E36"/>
+      <stop offset="0.58" stop-color="#032D60"/>
+      <stop offset="1" stop-color="#0B5CAB"/>
+    </linearGradient>
+    <linearGradient id="card" x1="812" y1="85" x2="1285" y2="398" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#EDF5FC" stop-opacity="0.97"/>
+    </linearGradient>
+    <filter id="shadow" x="760" y="35" width="590" height="410" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#001A33" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+  <rect width="1400" height="480" rx="32" fill="url(#bg)"/>
+  <circle cx="1320" cy="-40" r="245" fill="#1B96FF" fill-opacity="0.12"/>
+  <circle cx="80" cy="520" r="250" fill="#45C65A" fill-opacity="0.08"/>
+  <path d="M0 397C240 319 453 365 657 306C895 237 1132 177 1400 217V480H0V397Z" fill="#FFFFFF" fill-opacity="0.035"/>
+
+  <g transform="translate(90 82)">
+    <rect width="88" height="88" rx="24" fill="#0B5CAB"/>
+    <path d="M44 14L72 30V58L44 74L16 58V30L44 14Z" stroke="white" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M29 45L39 55L61 33" stroke="#45C65A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="90" y="224" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700" letter-spacing="-1">ScenarioForge</text>
+  <text x="92" y="269" fill="#B9D6F2" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600">Salesforce-native automation regression testing</text>
+  <text x="92" y="319" fill="#E8F3FC" font-family="Arial, Helvetica, sans-serif" font-size="18">Preflight scenarios. Execute real Flow &amp; Apex automation.</text>
+  <text x="92" y="350" fill="#E8F3FC" font-family="Arial, Helvetica, sans-serif" font-size="18">Rollback business data. Preserve release evidence.</text>
+
+  <g transform="translate(92 390)">
+    <rect width="160" height="38" rx="19" fill="#FFFFFF" fill-opacity="0.09" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <circle cx="21" cy="19" r="6" fill="#45C65A"/>
+    <text x="37" y="25" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">ENGINE v3.0.0</text>
+    <rect x="172" width="172" height="38" rx="19" fill="#FFFFFF" fill-opacity="0.09" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="194" y="25" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">SALESFORCE API 67</text>
+  </g>
+
+  <g>
+    <rect x="790" y="66" width="520" height="344" rx="22" fill="url(#card)"/>
+    <rect x="790" y="66" width="520" height="58" rx="22" fill="#071E36"/>
+    <rect x="790" y="102" width="520" height="22" fill="#071E36"/>
+    <circle cx="822" cy="95" r="7" fill="#45C65A"/>
+    <text x="843" y="101" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">Release Gate / Core Revenue Paths</text>
+
+    <rect x="817" y="149" width="205" height="92" rx="14" fill="white" stroke="#D8E4EF"/>
+    <text x="838" y="177" fill="#5F6B7A" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700">PREFLIGHT</text>
+    <text x="838" y="213" fill="#2E844A" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">READY</text>
+    <circle cx="987" cy="195" r="18" fill="#E3F7E8"/>
+    <path d="M978 195L984 201L996 188" stroke="#2E844A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="1041" y="149" width="241" height="92" rx="14" fill="white" stroke="#D8E4EF"/>
+    <text x="1062" y="177" fill="#5F6B7A" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700">LATEST SUITE</text>
+    <text x="1062" y="211" fill="#181818" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700">12 / 12</text>
+    <text x="1161" y="210" fill="#2E844A" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">PASSED</text>
+
+    <text x="818" y="281" fill="#181818" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Regression suite</text>
+    <g font-family="Arial, Helvetica, sans-serif" font-size="13">
+      <circle cx="830" cy="312" r="7" fill="#2E844A"/><text x="849" y="317" fill="#181818">Customer onboarding</text><text x="1223" y="317" fill="#2E844A" font-weight="700">PASS</text>
+      <circle cx="830" cy="345" r="7" fill="#2E844A"/><text x="849" y="350" fill="#181818">High discount approval</text><text x="1223" y="350" fill="#2E844A" font-weight="700">PASS</text>
+      <circle cx="830" cy="378" r="7" fill="#2E844A"/><text x="849" y="383" fill="#181818">Renewal opportunity</text><text x="1223" y="383" fill="#2E844A" font-weight="700">PASS</text>
+    </g>
+  </g>
+</svg>

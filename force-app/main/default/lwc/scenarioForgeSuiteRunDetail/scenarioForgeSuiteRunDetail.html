@@ -1,0 +1,51 @@
+<template>
+    <button
+        class="back"
+        onclick="{back}"
+    >
+        ← Regression Suites
+    </button>
+    <template lwc:if="{error}"><div class="error">{error}</div></template>
+    <template lwc:if="{details}">
+        <header class="hero">
+            <div>
+                <span class="{statusClass}">{details.run.status}</span>
+                <h1>{details.run.suiteName}</h1>
+                <p>{details.run.name} · Queueable regression execution</p>
+            </div>
+            <div class="score">
+                <strong>{details.run.passedScenarios}/{details.run.totalScenarios}</strong><span>scenarios passed</span
+                ><lightning-button-icon
+                    icon-name="utility:refresh"
+                    alternative-text="Refresh"
+                    onclick="{refresh}"
+                ></lightning-button-icon>
+            </div>
+        </header>
+        <template lwc:if="{running}"
+            ><div class="running">
+                <lightning-spinner size="small" alternative-text="Running"></lightning-spinner>
+                <div>
+                    <strong>Regression suite is running</strong
+                    ><span>This page refreshes automatically while Queueable jobs progress.</span>
+                </div>
+            </div></template
+        >
+        <section class="summary">{details.run.summary}</section>
+        <section class="panel">
+            <div class="panel-head"><h2>Scenario executions</h2></div>
+            <template for:each="{details.items}" for:item="item"
+                ><button
+                    key="{item.id}"
+                    class="item"
+                    data-id="{item.scenarioRunId}"
+                    onclick="{openRun}"
+                >
+                    <span class="seq">{item.sequence}</span>
+                    <div><strong>{item.scenarioName}</strong><small>{item.message}</small></div>
+                    <span class="item-status">{item.status}</span><span>{item.durationMs} ms</span
+                    ><lightning-icon icon-name="utility:chevronright" size="xx-small"></lightning-icon></button
+            ></template>
+        </section>
+    </template>
+</template>

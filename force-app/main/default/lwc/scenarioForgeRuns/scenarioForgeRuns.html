@@ -1,0 +1,31 @@
+<template
+    ><div class="topbar">
+        <div>
+            <span>EXECUTION HISTORY</span>
+            <h1>Regression runs</h1>
+            <p>Trace passed, failed, and engine-error outcomes across scenarios.</p>
+        </div>
+    </div>
+    <template lwc:if="{error}"><div class="error">{error}</div></template>
+    <div class="panel">
+        <template lwc:if="{empty}"><div class="empty">No execution history yet.</div></template
+        ><template lwc:else
+            ><div class="header row">
+                <span>Scenario</span><span>Status</span><span>Steps</span><span>Duration</span><span></span>
+            </div>
+            <template for:each="{runs}" for:item="run"
+                ><button
+                    key="{run.id}"
+                    class="row data"
+                    data-id="{run.id}"
+                    onclick="{open}"
+                >
+                    <div><strong>{run.scenarioName}</strong><small>{run.name}</small></div>
+                    <span class="status">{run.status}</span><span>{run.passedSteps}/{run.totalSteps}</span
+                    ><span>{run.durationMs} ms</span
+                    ><lightning-icon
+                        icon-name="utility:chevronright"
+                        size="xx-small"
+                    ></lightning-icon></button></template
+        ></template></div
+></template>

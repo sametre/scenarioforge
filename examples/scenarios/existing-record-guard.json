@@ -1,0 +1,49 @@
+{
+    "schemaVersion": "3.0",
+    "product": "ScenarioForge",
+    "scenario": {
+        "name": "Existing record guard",
+        "description": "Demonstrates deterministic FIND_RECORD lookup and a non-destructive delete assertion. Replace External_Id__c with a unique field available in your target org before activation.",
+        "status": "Draft",
+        "category": "Data Integrity",
+        "tags": "find,delete,guard"
+    },
+    "steps": [
+        {
+            "sequence": 1,
+            "action": "FIND_RECORD",
+            "targetObject": "Account",
+            "recordAlias": "existingAccount",
+            "configuration": {
+                "where": {
+                    "External_Id__c": "DEMO-001"
+                }
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        },
+        {
+            "sequence": 2,
+            "action": "DELETE_RECORD",
+            "targetObject": "Account",
+            "recordAlias": "existingAccount",
+            "configuration": {
+                "recordAlias": "existingAccount"
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        },
+        {
+            "sequence": 3,
+            "action": "ASSERT_RECORD_NOT_EXISTS",
+            "targetObject": "Account",
+            "configuration": {
+                "where": {
+                    "Id": "${existingAccount}"
+                }
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        }
+    ]
+}

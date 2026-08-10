@@ -1,0 +1,57 @@
+<template
+    ><button
+        class="back"
+        onclick="{back}"
+    >
+        ← Run History</button
+    ><template lwc:if="{error}"><div class="error">{error}</div></template
+    ><template lwc:if="{details}"
+        ><header class="hero">
+            <div>
+                <span class="{statusClass}">{details.run.status}</span>
+                <h1>{details.run.scenarioName}</h1>
+                <p>{details.run.name} · Engine {details.run.engineVersion} · {details.run.isolationMode}</p>
+            </div>
+            <div class="score">
+                <strong>{details.run.passedSteps}/{details.run.executedSteps}</strong><span>executed steps passed</span>
+            </div>
+        </header>
+        <section class="telemetry">
+            <article><span>Wall time</span><strong>{details.run.durationMs} ms</strong></article>
+            <article><span>Apex CPU</span><strong>{details.run.cpuMs} ms</strong></article>
+            <article><span>SOQL</span><strong>{details.run.soqlQueries}</strong></article>
+            <article><span>DML</span><strong>{details.run.dmlStatements}</strong></article>
+        </section>
+        <section class="summary">{details.run.summary}</section>
+        <section class="panel">
+            <div class="panel-head">
+                <h2>Execution evidence</h2>
+                <span>{details.run.totalSteps} defined steps</span>
+            </div>
+            <template for:each="{details.results}" for:item="result"
+                ><article key="{result.id}" class="result">
+                    <div class="seq">{result.sequence}</div>
+                    <div>
+                        <div class="title">
+                            <strong>{result.action}</strong><span>{result.status}</span
+                            ><small>{result.durationMs} ms</small>
+                        </div>
+                        <p>{result.message}</p>
+                        <template lwc:if="{result.expected}"
+                            ><div class="compare">
+                                <div>
+                                    <label>EXPECTED</label>
+                                    <pre>{result.expected}</pre>
+                                </div>
+                                <div>
+                                    <label>ACTUAL</label>
+                                    <pre>{result.actual}</pre>
+                                </div>
+                            </div></template
+                        >
+                    </div>
+                </article></template
+            >
+        </section></template
+    ></template
+>

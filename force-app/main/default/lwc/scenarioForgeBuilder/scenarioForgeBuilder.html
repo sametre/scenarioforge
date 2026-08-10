@@ -1,0 +1,372 @@
+<template>
+    <template lwc:if="{busy}"><lightning-spinner alternative-text="Working"></lightning-spinner></template>
+    <button
+        class="back"
+        onclick="{back}"
+    >
+        ← Scenarios
+    </button>
+
+    <template lwc:if="{details}">
+        <header class="hero">
+            <div>
+                <span class="eyebrow">SCENARIO BUILDER</span>
+                <h1>{details.scenario.name}</h1>
+                <p>{details.scenario.description}</p>
+                <div class="chips">
+                    <span>{details.scenario.status}</span><span>{details.scenario.stepCount} steps</span
+                    ><span>Last: {details.scenario.lastRunStatus}</span>
+                </div>
+            </div>
+            <div class="actions">
+                <lightning-button
+                    label="Export"
+                    icon-name="utility:download"
+                    onclick="{exportDefinition}"
+                ></lightning-button>
+                <lightning-button
+                    label="Preflight"
+                    icon-name="utility:check"
+                    onclick="{validate}"
+                ></lightning-button>
+                <lightning-button
+                    variant="brand"
+                    label="Run Scenario"
+                    icon-name="utility:play"
+                    onclick="{run}"
+                ></lightning-button>
+            </div>
+        </header>
+
+        <template lwc:if="{preflight}">
+            <section class="{preflightClass}">
+                <div>
+                    <strong>Preflight {preflight.valid}</strong
+                    ><span
+                        >{preflight.enabledSteps} enabled steps · {preflight.errorCount} errors ·
+                        {preflight.warningCount} warnings</span
+                    >
+                </div>
+                <template lwc:if="{hasIssues}"
+                    ><div class="issues">
+                        <template for:each="{preflight.issues}" for:item="i"
+                            ><div key="{i.code}">
+                                <span>{i.severity}</span><strong>Step {i.sequence}</strong>
+                                <p>{i.message}</p>
+                            </div></template
+                        >
+                    </div></template
+                >
+            </section>
+        </template>
+
+        <section class="panel">
+            <div class="panel-head">
+                <div>
+                    <h2>Execution plan</h2>
+                    <p>
+                        Build steps visually. Business-data mutations execute real Salesforce automation and roll back
+                        after assertions are captured.
+                    </p>
+                </div>
+                <lightning-button
+                    variant="brand-outline"
+                    label="Add Step"
+                    icon-name="utility:add"
+                    onclick="{addStep}"
+                ></lightning-button>
+            </div>
+            <template lwc:if="{hasSteps}">
+                <div class="steps">
+                    <template for:each="{details.steps}" for:item="step"
+                        ><article key="{step.id}" class="step">
+                            <div class="number">{step.sequence}</div>
+                            <div class="step-main">
+                                <div class="step-title">
+                                    <strong>{step.action}</strong><span>{step.targetObject}</span
+                                    ><template lwc:if="{step.recordAlias}"
+                                        ><span class="alias">@{step.recordAlias}</span></template
+                                    >
+                                </div>
+                                <pre>{step.configuration}</pre>
+                            </div>
+                            <div class="step-actions">
+                                <lightning-button-icon
+                                    icon-name="utility:edit"
+                                    alternative-text="Edit"
+                                    data-id="{step.id}"
+                                    onclick="{edit}"
+                                ></lightning-button-icon
+                                ><lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Delete"
+                                    data-id="{step.id}"
+                                    onclick="{remove}"
+                                ></lightning-button-icon>
+                            </div></article
+                    ></template>
+                </div>
+            </template>
+            <template lwc:else
+                ><div class="empty">
+                    <strong>Your execution plan is empty.</strong
+                    ><span>Add a step using the guided builder—no JSON required.</span>
+                </div></template
+            >
+        </section>
+    </template>
+
+    <template lwc:if="{showModal}">
+        <section role="dialog" class="slds-modal slds-fade-in-open step-modal">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header modal-head">
+                    <div>
+                        <span class="eyebrow">SCENARIO STEP</span>
+                        <h2 class="slds-modal__title">Configure operation</h2>
+                    </div>
+                    <lightning-button
+                        label="{modeLabel}"
+                        icon-name="utility:code"
+                        onclick="{toggleMode}"
+                    ></lightning-button>
+                </header>
+                <div class="slds-modal__content slds-p-around_large form">
+                    <div class="grid three">
+                        <lightning-input
+                            type="number"
+                            name="sequence"
+                            label="Sequence"
+                            value="{draft.sequence}"
+                            onchange="{change}"
+                        ></lightning-input>
+                        <lightning-combobox
+                            name="action"
+                            label="Action"
+                            value="{draft.action}"
+                            options="{actionOptions}"
+                            onchange="{change}"
+                        ></lightning-combobox>
+                        <lightning-combobox
+                            name="targetObject"
+                            label="Target Object"
+                            value="{draft.targetObject}"
+                            options="{objectOptions}"
+                            onchange="{change}"
+                            required
+                        ></lightning-combobox>
+                    </div>
+
+                    <template lwc:if="{advancedJson}">
+                        <div class="advanced-callout">
+                            <strong>Advanced mode</strong
+                            ><span
+                                >Use portable ScenarioForge JSON directly. Switch back to Guided Builder at any time if
+                                the structure is supported.</span
+                            >
+                        </div>
+                        <lightning-input
+                            name="recordAlias"
+                            label="Step Record Alias (optional)"
+                            value="{draft.recordAlias}"
+                            onchange="{change}"
+                        ></lightning-input>
+                        <lightning-textarea
+                            class="json"
+                            name="configuration"
+                            label="Configuration JSON"
+                            value="{draft.configuration}"
+                            onchange="{change}"
+                        ></lightning-textarea>
+                    </template>
+
+                    <template lwc:else>
+                        <div class="guided-banner">
+                            <lightning-icon icon-name="utility:magicwand" size="x-small"></lightning-icon>
+                            <div>
+                                <strong>Guided Builder</strong
+                                ><span
+                                    >Choose fields and values; ScenarioForge generates the execution JSON for you.</span
+                                >
+                            </div>
+                        </div>
+
+                        <template lwc:if="{isCreateOrFind}">
+                            <lightning-input
+                                name="recordAlias"
+                                label="Save result as alias"
+                                value="{draft.recordAlias}"
+                                onchange="{change}"
+                                placeholder="account"
+                            ></lightning-input>
+                        </template>
+                        <template lwc:if="{usesExistingAlias}">
+                            <lightning-input
+                                name="alias"
+                                label="Record alias from an earlier step"
+                                value="{form.alias}"
+                                onchange="{changeForm}"
+                                placeholder="account"
+                                required
+                            ></lightning-input>
+                        </template>
+
+                        <template lwc:if="{isAssertField}">
+                            <div class="grid three">
+                                <lightning-combobox
+                                    name="field"
+                                    label="Field to validate"
+                                    value="{form.field}"
+                                    options="{fieldOptions}"
+                                    onchange="{changeForm}"
+                                    required
+                                ></lightning-combobox>
+                                <lightning-combobox
+                                    name="operator"
+                                    label="Operator"
+                                    value="{form.operator}"
+                                    options="{operatorOptions}"
+                                    onchange="{changeForm}"
+                                ></lightning-combobox>
+                                <lightning-input
+                                    name="expected"
+                                    label="Expected value"
+                                    value="{form.expected}"
+                                    onchange="{changeForm}"
+                                    disabled="{expectedDisabled}"
+                                    placeholder="Technology"
+                                ></lightning-input>
+                            </div>
+                        </template>
+
+                        <template lwc:if="{usesPairs}">
+                            <section class="pair-builder">
+                                <div class="pair-head">
+                                    <div><strong>{pairTitle}</strong><span>{pairHelp}</span></div>
+                                    <lightning-button
+                                        label="Add Row"
+                                        icon-name="utility:add"
+                                        onclick="{addPair}"
+                                    ></lightning-button>
+                                </div>
+                                <div class="pair-rows">
+                                    <template for:each="{pairs}" for:item="row">
+                                        <div class="pair-row" key="{row.id}">
+                                            <lightning-combobox
+                                                data-row="{row.id}"
+                                                label="{pairKeyLabel}"
+                                                value="{row.field}"
+                                                options="{fieldOptions}"
+                                                onchange="{pairFieldChanged}"
+                                            ></lightning-combobox>
+                                            <lightning-input
+                                                data-row="{row.id}"
+                                                label="Value"
+                                                value="{row.value}"
+                                                onchange="{pairValueChanged}"
+                                                placeholder="Literal value or &#36;&#123;alias&#125;"
+                                            ></lightning-input>
+                                            <lightning-button-icon
+                                                data-row="{row.id}"
+                                                icon-name="utility:delete"
+                                                alternative-text="Remove row"
+                                                onclick="{removePair}"
+                                            ></lightning-button-icon>
+                                        </div>
+                                    </template>
+                                </div>
+                            </section>
+                        </template>
+
+                        <template lwc:if="{isCount}">
+                            <div class="grid two compact-grid">
+                                <lightning-combobox
+                                    name="operator"
+                                    label="Count operator"
+                                    value="{form.operator}"
+                                    options="{operatorOptions}"
+                                    onchange="{changeForm}"
+                                ></lightning-combobox>
+                                <lightning-input
+                                    type="number"
+                                    name="expected"
+                                    label="Expected count"
+                                    value="{form.expected}"
+                                    onchange="{changeForm}"
+                                    required
+                                ></lightning-input>
+                            </div>
+                        </template>
+
+                        <template lwc:if="{isDelete}"
+                            ><div class="action-note">
+                                Delete runs only inside the isolated scenario transaction. The record returns when the
+                                scenario rollback completes.
+                            </div></template
+                        >
+                    </template>
+
+                    <div class="token-bar">
+                        <strong>Runtime tokens</strong><code>&#36;&#123;TODAY&#125;</code
+                        ><code>&#36;&#123;NOW&#125;</code><code>&#36;&#123;USER_ID&#125;</code
+                        ><code>&#36;&#123;account&#125;</code><span>Use an alias token as an entire value.</span>
+                    </div>
+                    <div class="checks">
+                        <lightning-input
+                            type="checkbox"
+                            name="enabled"
+                            label="Enabled"
+                            checked="{draft.enabled}"
+                            onchange="{change}"
+                        ></lightning-input
+                        ><lightning-input
+                            type="checkbox"
+                            name="stopOnFailure"
+                            label="Stop on failure"
+                            checked="{draft.stopOnFailure}"
+                            onchange="{change}"
+                        ></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick="{close}"
+                    ></lightning-button
+                    ><lightning-button
+                        class="slds-m-left_small"
+                        variant="brand"
+                        label="Save Step"
+                        onclick="{save}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template lwc:if="{showExport}"
+        ><section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Portable Scenario Definition</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_large">
+                    <lightning-textarea label="ScenarioForge JSON" value="{exportText}" read-only></lightning-textarea>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Close"
+                        onclick="{closeExport}"
+                    ></lightning-button
+                    ><lightning-button
+                        class="slds-m-left_small"
+                        variant="brand"
+                        label="Copy JSON"
+                        onclick="{copyExport}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div
+    ></template>
+</template>

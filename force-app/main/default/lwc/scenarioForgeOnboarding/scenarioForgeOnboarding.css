@@ -1,0 +1,213 @@
+:host {
+    display: block;
+    color: #181818;
+}
+.setup-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 8px 8px 36px;
+}
+.hero {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    align-items: flex-start;
+    padding: 38px 40px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #032d60 0%, #0b4f8a 60%, #0176d3 100%);
+    color: white;
+    box-shadow: 0 16px 44px rgba(3, 45, 96, 0.18);
+    overflow: hidden;
+}
+.hero:after {
+    content: '';
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+    right: -80px;
+    top: -110px;
+}
+.hero-copy {
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+}
+.eyebrow,
+.section-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+.hero h1 {
+    font-size: 34px;
+    line-height: 1.12;
+    margin: 8px 0 12px;
+    font-weight: 750;
+}
+.hero p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    color: #dfe9f5;
+}
+.version-pill {
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+.readiness {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 24px 0 16px;
+    padding: 20px 22px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+}
+.readiness h2 {
+    font-size: 16px;
+    margin: 5px 0 0;
+    font-weight: 650;
+}
+.section-label {
+    color: #5c6b7a;
+}
+.status {
+    white-space: nowrap;
+    padding: 7px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+.status.good {
+    background: #e8f5ee;
+    color: #067d68;
+}
+.status.pending {
+    background: #eef4fb;
+    color: #0b5cab;
+}
+.setup-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+.setup-card {
+    position: relative;
+    min-height: 270px;
+    padding: 25px;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 6px 22px rgba(15, 23, 42, 0.05);
+}
+.setup-card.featured {
+    border-color: #9cc8f5;
+    background: linear-gradient(180deg, #f8fbff 0%, #fff 100%);
+}
+.step-number {
+    position: absolute;
+    right: 20px;
+    top: 18px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #d8e6f5;
+}
+.setup-card h3 {
+    font-size: 19px;
+    margin: 16px 0 8px;
+}
+.setup-card p {
+    min-height: 84px;
+    color: #5f6b7a;
+    line-height: 1.55;
+    margin: 0 0 18px;
+}
+.checks {
+    display: grid;
+    gap: 8px;
+}
+.check {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+.check.good {
+    background: #eef9f3;
+    color: #116b4b;
+}
+.check.warning {
+    background: #fff2f2;
+    color: #ba0517;
+}
+.check.neutral {
+    background: #f4f6f9;
+    color: #44546a;
+}
+.architecture-note {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-top: 16px;
+    padding: 20px 22px;
+    border: 1px solid #d9e5f2;
+    background: #f7faff;
+    border-radius: 16px;
+}
+.architecture-note p {
+    margin: 4px 0 0;
+    color: #5f6b7a;
+    line-height: 1.5;
+}
+.icon-wrap {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #e4f1fb;
+}
+.setup-footer {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 18px 4px 0;
+    color: #6b778c;
+    font-size: 12px;
+}
+.error {
+    padding: 14px 16px;
+    margin: 16px 0;
+    background: #fff1f1;
+    border: 1px solid #f4b7b7;
+    border-radius: 12px;
+    color: #ba0517;
+}
+@media (max-width: 900px) {
+    .setup-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero {
+        padding: 28px;
+    }
+    .setup-card {
+        min-height: 0;
+    }
+    .setup-card p {
+        min-height: 0;
+    }
+    .version-pill {
+        display: none;
+    }
+}

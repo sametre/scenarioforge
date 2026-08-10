@@ -1,0 +1,15 @@
+{
+    "name": "scenarioforge",
+    "version": "3.0.0",
+    "private": true,
+    "description": "Salesforce-native business-process regression testing with guided authoring, preflight validation, isolated execution, portable scenarios, and Queueable regression suites.",
+    "scripts": {
+        "audit": "python3 scripts/repository_audit.py",
+        "format": "prettier --write \"**/*.{cls,css,html,js,json,md,yml,yaml}\"",
+        "format:check": "prettier --check \"**/*.{cls,css,html,js,json,md,yml,yaml}\""
+    },
+    "devDependencies": {
+        "prettier": "^3.6.2",
+        "prettier-plugin-apex": "^2.2.6"
+    }
+}

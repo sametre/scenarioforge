@@ -1,0 +1,196 @@
+<template
+    ><template lwc:if="{busy}"><lightning-spinner alternative-text="Working"></lightning-spinner></template>
+    <div class="topbar">
+        <div>
+            <span class="eyebrow">PORTABLE TEST DEFINITIONS</span>
+            <h1>Regression Scenarios</h1>
+            <p>
+                Model a business process, preflight it, execute real Salesforce automation, and keep the definition
+                version-control friendly.
+            </p>
+        </div>
+        <div class="top-actions">
+            <lightning-button
+                label="Templates"
+                icon-name="utility:collection"
+                onclick="{openTemplates}"
+            ></lightning-button
+            ><lightning-button
+                label="Import JSON"
+                icon-name="utility:upload"
+                onclick="{openImport}"
+            ></lightning-button
+            ><lightning-button
+                variant="brand"
+                label="New Scenario"
+                icon-name="utility:add"
+                onclick="{newScenario}"
+            ></lightning-button>
+        </div>
+    </div>
+    <template lwc:if="{error}"><div class="error">{error}</div></template>
+    <div class="cards">
+        <template for:each="{scenarios}" for:item="item"
+            ><article
+                key="{item.id}"
+                class="card"
+                data-id="{item.id}"
+                onclick="{open}"
+            >
+                <div class="card-head"><span class="badge">{item.status}</span><span>{item.stepCount} steps</span></div>
+                <h2>{item.name}</h2>
+                <p>{item.description}</p>
+                <div class="meta">
+                    <span>{item.category}</span><span>{item.tags}</span><span>Last: {item.lastRunStatus}</span>
+                </div>
+                <div class="actions">
+                    <lightning-button
+                        label="Open"
+                        data-id="{item.id}"
+                        onclick="{open}"
+                    ></lightning-button
+                    ><lightning-button
+                        label="Duplicate"
+                        icon-name="utility:copy"
+                        data-id="{item.id}"
+                        onclick="{duplicate}"
+                    ></lightning-button
+                    ><lightning-button
+                        variant="brand-outline"
+                        label="Run"
+                        icon-name="utility:play"
+                        data-id="{item.id}"
+                        onclick="{run}"
+                    ></lightning-button>
+                </div></article
+        ></template>
+    </div>
+    <template lwc:if="{empty}"
+        ><div class="empty">
+            <h2>No scenarios yet</h2>
+            <p>Create one from scratch or import a portable ScenarioForge JSON definition.</p>
+        </div></template
+    ><template lwc:if="{showTemplates}"
+        ><section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container template-modal">
+                <header class="slds-modal__header">
+                    <span class="eyebrow">QUICK START</span>
+                    <h2 class="slds-modal__title">Create from a proven pattern</h2>
+                    <p class="template-intro">
+                        Templates are imported as Draft so you can select your org fields and run Preflight before
+                        execution.
+                    </p>
+                </header>
+                <div class="slds-modal__content slds-p-around_large">
+                    <div class="template-grid">
+                        <template for:each="{templates}" for:item="item"
+                            ><article class="template-card" key="{item.key}">
+                                <div class="template-icon">
+                                    <lightning-icon icon-name="{item.icon}" size="small"></lightning-icon>
+                                </div>
+                                <h3>{item.name}</h3>
+                                <p>{item.description}</p>
+                                <lightning-button
+                                    data-key="{item.key}"
+                                    variant="brand-outline"
+                                    label="Use Template"
+                                    onclick="{createFromTemplate}"
+                                ></lightning-button></article
+                        ></template>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Close"
+                        onclick="{closeTemplates}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div></template
+    ><template lwc:if="{showModal}"
+        ><section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header"><h2 class="slds-modal__title">New Scenario</h2></header>
+                <div class="slds-modal__content slds-p-around_large form">
+                    <lightning-input
+                        name="name"
+                        label="Scenario Name"
+                        value="{draft.name}"
+                        onchange="{change}"
+                        required
+                    ></lightning-input
+                    ><lightning-textarea
+                        name="description"
+                        label="Description"
+                        value="{draft.description}"
+                        onchange="{change}"
+                    ></lightning-textarea>
+                    <div class="grid">
+                        <lightning-combobox
+                            name="status"
+                            label="Status"
+                            value="{draft.status}"
+                            options="{statusOptions}"
+                            onchange="{change}"
+                        ></lightning-combobox
+                        ><lightning-input
+                            name="category"
+                            label="Category"
+                            value="{draft.category}"
+                            onchange="{change}"
+                        ></lightning-input>
+                    </div>
+                    <lightning-input
+                        name="tags"
+                        label="Tags"
+                        value="{draft.tags}"
+                        onchange="{change}"
+                    ></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick="{closeModal}"
+                    ></lightning-button
+                    ><lightning-button
+                        class="slds-m-left_small"
+                        variant="brand"
+                        label="Create"
+                        onclick="{save}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div></template
+    ><template lwc:if="{showImport}"
+        ><section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header"><h2 class="slds-modal__title">Import ScenarioForge JSON</h2></header>
+                <div class="slds-modal__content slds-p-around_large">
+                    <lightning-textarea
+                        label="Portable definition"
+                        value="{importText}"
+                        onchange="{changeImport}"
+                    ></lightning-textarea>
+                    <p class="import-note">
+                        Imports are created as Draft so you can run Preflight against the destination org before
+                        execution.
+                    </p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick="{closeImport}"
+                    ></lightning-button
+                    ><lightning-button
+                        class="slds-m-left_small"
+                        variant="brand"
+                        label="Import"
+                        onclick="{importDefinition}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div></template
+></template>

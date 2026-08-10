@@ -1,0 +1,180 @@
+.back {
+    border: 0;
+    background: transparent;
+    color: #0b5cab;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 16px;
+    padding: 20px;
+}
+.hero h1 {
+    font-size: 25px;
+    color: #032d60;
+    margin: 8px 0 4px;
+}
+.hero p {
+    color: #6b7785;
+}
+.status {
+    display: inline-block;
+    border-radius: 99px;
+    padding: 5px 9px;
+    font-size: 10px;
+    font-weight: 800;
+    background: #eef4fa;
+    color: #0b5cab;
+}
+.status.passed {
+    background: #eaf7ee;
+    color: #216e39;
+}
+.status.failed,
+.status.error {
+    background: #fef1ee;
+    color: #8e030f;
+}
+.score {
+    text-align: right;
+}
+.score strong,
+.score span {
+    display: block;
+}
+.score strong {
+    font-size: 25px;
+    color: #032d60;
+}
+.score span {
+    font-size: 10px;
+    color: #6e7985;
+}
+.telemetry {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+.telemetry article {
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 12px;
+    padding: 13px;
+}
+.telemetry span,
+.telemetry strong {
+    display: block;
+}
+.telemetry span {
+    font-size: 9px;
+    color: #74808c;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.telemetry strong {
+    font-size: 15px;
+    color: #032d60;
+    margin-top: 4px;
+}
+.summary {
+    background: #f7f9fc;
+    border: 1px solid #e1e6eb;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 12px;
+    color: #4c5d6e;
+}
+.panel {
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 14px;
+}
+.panel-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid #edf0f3;
+}
+.panel-head h2 {
+    font-size: 16px;
+}
+.panel-head span {
+    font-size: 10px;
+    color: #6f7b88;
+}
+.result {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid #edf0f3;
+}
+.seq {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #eef4fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #032d60;
+}
+.title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.title span,
+.title small {
+    font-size: 10px;
+    color: #65727e;
+}
+.result p {
+    font-size: 11px;
+    color: #5f6d79;
+    margin-top: 4px;
+}
+.compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 9px;
+}
+.compare label {
+    font-size: 9px;
+    color: #74808c;
+    font-weight: 800;
+}
+.compare pre {
+    white-space: pre-wrap;
+    background: #f8fafc;
+    border: 1px solid #edf0f3;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 10px;
+}
+.error {
+    padding: 12px;
+    background: #fef1ee;
+    color: #8e030f;
+    border-radius: 10px;
+}
+@media (max-width: 800px) {
+    .telemetry {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .compare {
+        grid-template-columns: 1fr;
+    }
+}

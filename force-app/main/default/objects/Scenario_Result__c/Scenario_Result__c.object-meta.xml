@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <label>Scenario Result</label>
+    <nameField>
+        <displayFormat>RESULT-{000000}</displayFormat>
+        <label>Result</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Scenario Results</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

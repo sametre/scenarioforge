@@ -1,0 +1,102 @@
+<template>
+    <template lwc:if="{busy}"
+        ><lightning-spinner alternative-text="Setting up ScenarioForge"></lightning-spinner
+    ></template>
+    <div class="setup-shell">
+        <header class="hero">
+            <div class="hero-copy">
+                <span class="eyebrow">FIRST-RUN SETUP</span>
+                <h1>Welcome to ScenarioForge</h1>
+                <p>
+                    Validate Salesforce business processes without leaving test records behind. Your first regression
+                    workspace can be ready in one click.
+                </p>
+            </div>
+            <div class="version-pill">v{state.productVersion}</div>
+        </header>
+
+        <template lwc:if="{error}"><div class="error">{error}</div></template>
+        <template lwc:if="{state}">
+            <section class="readiness">
+                <div>
+                    <span class="section-label">INSTALLATION STATUS</span>
+                    <h2>{state.readinessMessage}</h2>
+                </div>
+                <div class="{starterClass}">{starterStatus}</div>
+            </section>
+
+            <div class="setup-grid">
+                <article class="setup-card">
+                    <div class="step-number">01</div>
+                    <lightning-icon icon-name="utility:identity" size="small"></lightning-icon>
+                    <h3>Access check</h3>
+                    <p>
+                        ScenarioForge runs target data in the current user security context. The starter pack uses
+                        standard Account and Contact objects.
+                    </p>
+                    <div class="checks">
+                        <div class="{authorClass}">
+                            <span>Scenario authoring access</span><strong>{state.canAuthor}</strong>
+                        </div>
+                        <div class="{accountClass}">
+                            <span>Account create access</span><strong>{state.accountReady}</strong>
+                        </div>
+                        <div class="{contactClass}">
+                            <span>Contact create access</span><strong>{state.contactReady}</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="setup-card featured">
+                    <div class="step-number">02</div>
+                    <lightning-icon icon-name="utility:package" size="small"></lightning-icon>
+                    <h3>Install starter pack</h3>
+                    <p>
+                        Create ready-to-run smoke, lifecycle, and relationship scenarios plus a regression suite. Test
+                        business records are rolled back after every execution.
+                    </p>
+                    <lightning-button
+                        variant="brand"
+                        label="Install Starter Pack"
+                        icon-name="utility:download"
+                        onclick="{install}"
+                        disabled="{installDisabled}"
+                    ></lightning-button>
+                </article>
+
+                <article class="setup-card">
+                    <div class="step-number">03</div>
+                    <lightning-icon icon-name="utility:play" size="small"></lightning-icon>
+                    <h3>Run your first test</h3>
+                    <p>
+                        Open a scenario, run Preflight, and execute it. ScenarioForge keeps the evidence while rolling
+                        test-data mutations back.
+                    </p>
+                    <lightning-button
+                        label="Open Workspace"
+                        icon-name="utility:forward"
+                        onclick="{continueToWorkspace}"
+                    ></lightning-button>
+                </article>
+            </div>
+
+            <section class="architecture-note">
+                <div class="icon-wrap"><lightning-icon icon-name="utility:shield" size="small"></lightning-icon></div>
+                <div>
+                    <strong>Safe by default</strong>
+                    <p>
+                        Target-object DML and SOQL use user-mode access. Each scenario is isolated with a savepoint
+                        rollback, while ScenarioForge run evidence is persisted separately.
+                    </p>
+                </div>
+            </section>
+
+            <footer class="setup-footer">
+                <span>Org {state.orgId}</span>
+                <span>{state.scenarioCount} scenarios</span>
+                <span>{state.suiteCount} suites</span>
+                <span>{state.runCount} historical runs</span>
+            </footer>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <label>Suite Run</label>
+    <nameField>
+        <displayFormat>SUITE-RUN-{000000}</displayFormat>
+        <label>Suite Run</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Suite Runs</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

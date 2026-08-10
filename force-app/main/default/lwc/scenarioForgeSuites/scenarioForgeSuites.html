@@ -1,0 +1,209 @@
+<template>
+    <template lwc:if="{busy}"><lightning-spinner alternative-text="Working"></lightning-spinner></template>
+    <template lwc:if="{error}"><div class="error">{error}</div></template>
+    <template lwc:if="{hasSelection}">
+        <button
+            class="back"
+            onclick="{back}"
+        >
+            ← Regression Suites
+        </button>
+        <template lwc:if="{details}">
+            <header class="suite-hero">
+                <div>
+                    <span class="eyebrow">REGRESSION SUITE</span>
+                    <h1>{details.suite.name}</h1>
+                    <p>{details.suite.description}</p>
+                    <div class="tags">
+                        <span>{details.suite.status}</span><span>{details.suite.memberCount} scenarios</span
+                        ><span>{details.suite.tags}</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <lightning-button
+                        label="Add Scenario"
+                        icon-name="utility:add"
+                        onclick="{addMember}"
+                    ></lightning-button
+                    ><lightning-button
+                        variant="brand"
+                        label="Run Suite"
+                        icon-name="utility:play"
+                        onclick="{run}"
+                    ></lightning-button>
+                </div>
+            </header>
+            <section class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Execution order</h2>
+                        <p>Each scenario receives a fresh Queueable transaction and governor-limit budget.</p>
+                    </div>
+                </div>
+                <template lwc:if="{hasMembers}"
+                    ><div class="members">
+                        <template for:each="{details.members}" for:item="m"
+                            ><div key="{m.id}" class="member">
+                                <span class="seq">{m.sequence}</span>
+                                <div>
+                                    <strong>{m.scenarioName}</strong><small>Last result: {m.lastRunStatus}</small>
+                                </div>
+                                <span class="enabled">Enabled</span
+                                ><lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Remove"
+                                    data-id="{m.id}"
+                                    onclick="{removeMember}"
+                                ></lightning-button-icon></div
+                        ></template></div
+                ></template>
+                <template lwc:else
+                    ><div class="empty">
+                        This suite is empty. Add the first critical business-process scenario.
+                    </div></template
+                >
+            </section>
+            <section class="panel runs">
+                <div class="panel-head">
+                    <div>
+                        <h2>Suite history</h2>
+                        <p>Regression pack outcomes across releases.</p>
+                    </div>
+                </div>
+                <template lwc:if="{hasSuiteRuns}"
+                    ><template for:each="{details.recentRuns}" for:item="r"
+                        ><button
+                            key="{r.id}"
+                            class="run-row"
+                            data-id="{r.id}"
+                            onclick="{openSuiteRun}"
+                        >
+                            <div><strong>{r.name}</strong><small>{r.summary}</small></div>
+                            <span>{r.status}</span><span>{r.passedScenarios}/{r.totalScenarios}</span
+                            ><lightning-icon
+                                icon-name="utility:chevronright"
+                                size="xx-small"
+                            ></lightning-icon></button></template
+                ></template>
+                <template lwc:else><div class="empty">No suite executions yet.</div></template>
+            </section>
+        </template>
+    </template>
+    <template lwc:else>
+        <div class="topbar">
+            <div>
+                <span class="eyebrow">REGRESSION PACKS</span>
+                <h1>Regression Suites</h1>
+                <p>
+                    Group critical scenarios into repeatable release gates without sharing governor limits between
+                    scenarios.
+                </p>
+            </div>
+            <lightning-button
+                variant="brand"
+                label="New Suite"
+                icon-name="utility:add"
+                onclick="{newSuite}"
+            ></lightning-button>
+        </div>
+        <div class="cards">
+            <template for:each="{suites}" for:item="s"
+                ><button
+                    key="{s.id}"
+                    class="card"
+                    data-id="{s.id}"
+                    onclick="{openSuite}"
+                >
+                    <div class="card-top"><span>{s.status}</span><span>{s.memberCount} scenarios</span></div>
+                    <h2>{s.name}</h2>
+                    <p>{s.description}</p>
+                    <div class="footer">
+                        <span>{s.tags}</span
+                        ><lightning-icon icon-name="utility:chevronright" size="xx-small"></lightning-icon>
+                    </div></button
+            ></template>
+        </div>
+        <template lwc:if="{empty}"
+            ><div class="empty large">
+                Create a regression suite for release-critical scenarios such as onboarding, approval, quote-to-cash, or
+                case routing.
+            </div></template
+        >
+    </template>
+    <template lwc:if="{showSuiteModal}"
+        ><section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header"><h2 class="slds-modal__title">New Regression Suite</h2></header>
+                <div class="slds-modal__content slds-p-around_large form">
+                    <lightning-input
+                        name="name"
+                        label="Suite Name"
+                        value="{suiteDraft.name}"
+                        onchange="{changeSuite}"
+                        required
+                    ></lightning-input
+                    ><lightning-textarea
+                        name="description"
+                        label="Description"
+                        value="{suiteDraft.description}"
+                        onchange="{changeSuite}"
+                    ></lightning-textarea
+                    ><lightning-combobox
+                        name="status"
+                        label="Status"
+                        value="{suiteDraft.status}"
+                        options="{statusOptions}"
+                        onchange="{changeSuite}"
+                    ></lightning-combobox
+                    ><lightning-input
+                        name="tags"
+                        label="Tags"
+                        value="{suiteDraft.tags}"
+                        onchange="{changeSuite}"
+                    ></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick="{closeSuiteModal}"
+                    ></lightning-button
+                    ><lightning-button
+                        class="slds-m-left_small"
+                        variant="brand"
+                        label="Create Suite"
+                        onclick="{saveNewSuite}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div
+    ></template>
+    <template lwc:if="{showMemberModal}"
+        ><section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header"><h2 class="slds-modal__title">Add Scenario</h2></header>
+                <div class="slds-modal__content slds-p-around_large">
+                    <lightning-combobox
+                        label="Scenario"
+                        value="{selectedScenarioId}"
+                        options="{scenarioOptions}"
+                        onchange="{changeScenario}"
+                    ></lightning-combobox>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick="{closeMemberModal}"
+                    ></lightning-button
+                    ><lightning-button
+                        class="slds-m-left_small"
+                        variant="brand"
+                        label="Add to Suite"
+                        onclick="{saveMember}"
+                    ></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div
+    ></template>
+</template>

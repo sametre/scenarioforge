@@ -1,0 +1,22 @@
+name: Salesforce Org Validation
+on:
+    workflow_dispatch:
+permissions:
+    contents: read
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with: { node-version: '22' }
+            - run: npm install --global @salesforce/cli
+            - name: Authenticate validation org
+              env:
+                  SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+              run: |
+                  test -n "$SFDX_AUTH_URL" || (echo "Configure repository secret SFDX_AUTH_URL" && exit 1)
+                  printf '%s' "$SFDX_AUTH_URL" > /tmp/sfdx-auth-url.txt
+                  sf org login sfdx-url --sfdx-url-file /tmp/sfdx-auth-url.txt --alias ci-validation
+            - name: Validate deployment and run local tests
+              run: sf project deploy validate --target-org ci-validation --source-dir force-app --test-level RunLocalTests --wait 45

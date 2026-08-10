@@ -1,0 +1,8 @@
+node_modules
+.sfdx
+.sf
+coverage
+.DS_Store
+*.log
+**/jsconfig.json
+**/.eslintrc.json

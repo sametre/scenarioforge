@@ -1,0 +1,67 @@
+{
+    "schemaVersion": "3.0",
+    "product": "ScenarioForge",
+    "scenario": {
+        "name": "Account lifecycle regression",
+        "description": "Creates an account, updates it, validates the updated field, and confirms the record is present inside the isolated scenario transaction.",
+        "status": "Draft",
+        "category": "Core CRM",
+        "tags": "account,smoke,regression"
+    },
+    "steps": [
+        {
+            "sequence": 1,
+            "action": "CREATE_RECORD",
+            "targetObject": "Account",
+            "recordAlias": "account",
+            "configuration": {
+                "fields": {
+                    "Name": "ScenarioForge Regression Account",
+                    "Industry": "Technology"
+                }
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        },
+        {
+            "sequence": 2,
+            "action": "UPDATE_RECORD",
+            "targetObject": "Account",
+            "recordAlias": "account",
+            "configuration": {
+                "recordAlias": "account",
+                "fields": {
+                    "Phone": "555-0100"
+                }
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        },
+        {
+            "sequence": 3,
+            "action": "ASSERT_FIELD",
+            "targetObject": "Account",
+            "recordAlias": "account",
+            "configuration": {
+                "recordAlias": "account",
+                "field": "Phone",
+                "operator": "EQUALS",
+                "expected": "555-0100"
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        },
+        {
+            "sequence": 4,
+            "action": "ASSERT_RECORD_EXISTS",
+            "targetObject": "Account",
+            "configuration": {
+                "where": {
+                    "Id": "${account}"
+                }
+            },
+            "enabled": true,
+            "stopOnFailure": true
+        }
+    ]
+}

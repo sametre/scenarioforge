@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#032D60</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Salesforce-native scenario authoring, preflight validation, isolated automation testing, and regression suite execution for Flows, Apex, validation rules, and declarative automation.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>ScenarioForge</label>
+    <navType>Standard</navType>
+    <tabs>ScenarioForge</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

@@ -1,0 +1,14 @@
+{
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "default": true,
+            "versionName": "ScenarioForge 3.0",
+            "versionNumber": "3.0.0.NEXT"
+        }
+    ],
+    "name": "scenarioforge",
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "67.0"
+}
